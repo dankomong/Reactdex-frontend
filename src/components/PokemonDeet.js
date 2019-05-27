@@ -8,7 +8,7 @@ export default class PokemonDeet extends Component {
     return (
       <div className="deet-header">
         <img src={this.props.pokemon.sprite} alt={this.props.pokemon.name} />
-        <p>{this.props.capitalizeFirstLetterOfName(this.props.pokemon.name)} </p>
+        <h1>{this.props.capitalizeFirstLetterOfName(this.props.pokemon.name)} </h1>
         <p><strong>Type: </strong> {this.props.capitalizeFirstLetterOfType(this.props.pokemon.type)} </p>
         <p><strong>Base Stats</strong></p>
         <p><strong>HP: </strong>{this.props.pokemon.hp}</p>

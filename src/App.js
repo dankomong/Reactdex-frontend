@@ -4,6 +4,7 @@ import './App.css';
 import PokemonCollection from './components/PokemonCollection'
 import PokemonDeet from './components/PokemonDeet'
 import Navbar from './components/Navbar'
+import LoginForm from './components/LoginForm'
 import { Route, Switch, Redirect } from 'react-router-dom'
 
 const API = 'http://localhost:3001/pokedexs/index'
@@ -16,6 +17,7 @@ class App extends Component {
     johto: [],
     hoenn: [],
     sinnoh: [],
+    currentUser: null
   }
 
   getPokemon = () => {
@@ -44,6 +46,22 @@ class App extends Component {
     return newWord.charAt(0).toUpperCase() + newWord.slice(1);
   }
 
+  logOut = () => {
+		localStorage.removeItem('token')
+		this.setState({
+			currentUser: null
+		}, () => {
+			this.props.history.push("/login")
+		})
+	}
+
+  setCurrentUser = (data) => {
+		localStorage.setItem("token", data.token)
+		this.setState({
+			currentUser: data.user
+		})
+	}
+
   componentDidMount() {
     this.getPokemon()
   }
@@ -52,7 +70,7 @@ class App extends Component {
     console.log('state', this.state.pokemon)
     return (
       <div>
-        <Navbar />
+        <Navbar currentUser={this.state.currentUser} logOut={this.logOut}/>
         <Switch>
           <Route path="/pokemon/:id" render={(routerProps) => {
             const foundPokemon = this.state.pokemon.find(pokemon => pokemon.id === parseInt(routerProps.match.params.id))
@@ -62,6 +80,11 @@ class App extends Component {
               return <div>Loading</div>
             }
           }} />
+          <Route
+            path="/login"
+            render={(routerProps) => {
+									return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
+								}} />
           <Route path="/regions/kanto" render={(routerProps) => <PokemonCollection region={"Kanto"} pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/johto" render={(routerProps) => <PokemonCollection region={"Johto"} pokemon={this.state.johto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/hoenn" render={(routerProps) => <PokemonCollection region={"Hoenn"} pokemon={this.state.hoenn} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />

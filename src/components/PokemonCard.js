@@ -20,7 +20,7 @@ export default class PokemonCard extends Component {
 
   render() {
     //console.log(this.props.pokemon)
-    console.log('PROP', this.props)
+    //console.log('PROP', this.props)
     return (
       <div key={this.props.i} onClick={this.handleClick}>
         {this.state.toggle ? <div className="card"><p><strong>Type: </strong>{this.props.capitalizeFirstLetterOfType(this.props.pokemon.type)}</p><Link to={`/pokemon/${this.props.pokemon.id}`}><p>More details</p></Link></div>
