@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.card {
+  text-align: center;
+  padding-top: 70px;
+  height: 198px;
+  line-height: 198px;
+}
+
+.deet-header {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.region-header {
+  text-align: center;
+}
+
+.region-header p {
+  font-size: 3em;
+}
+
+.card:hover {
+  cursor: pointer;
+}

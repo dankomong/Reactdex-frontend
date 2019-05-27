@@ -1,33 +1,47 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Container } from 'semantic-ui-react';
-import PokemonCard from './components/PokemonCard'
-import StackGrid from 'react-stack-grid';
+import PokemonCollection from './components/PokemonCollection'
+import PokemonDeet from './components/PokemonDeet'
+import Navbar from './components/Navbar'
+import { Route, Switch, Redirect } from 'react-router-dom'
 
-const API = 'http://localhost:3001/pokedex/index'
+const API = 'http://localhost:3001/pokedexs/index'
 
 class App extends Component {
 
   state = {
-    pokemon: []
+    pokemon: [],
+    kanto: [],
+    johto: [],
+    hoenn: [],
+    sinnoh: [],
   }
 
   getPokemon = () => {
     // testing for Kanto pokemon only
     fetch(API).then(res => res.json()).then(parsedRes => {
       this.setState({
-        pokemon: parsedRes[0].pokemons
+        pokemon: [...parsedRes[0].pokemons, ...parsedRes[1].pokemons, ...parsedRes[2].pokemons, ...parsedRes[3].pokemons],
+        kanto: parsedRes[0].pokemons,
+        johto: parsedRes[1].pokemons,
+        hoenn: parsedRes[2].pokemons,
+        sinnoh: parsedRes[3].pokemons
       })
+      //console.log("kl;asdfj", parsedRes)
     })
   }
 
-  renderPokemonCards = () => {
-    const pokemonArr = [...this.state.pokemon];
-    // should make a pokemon card component for this...
-    return pokemonArr.map((poke, index) => {
-      return <PokemonCard key={poke.id} i={index + 1} pokemon={poke} />
-    })
+  capitalizeFirstLetterOfName = (name) => {
+    let newWord = name
+
+    return newWord.charAt(0).toUpperCase() + newWord.slice(1);
+  }
+
+  capitalizeFirstLetterOfType = (type) => {
+    let newWord = type
+
+    return newWord.charAt(0).toUpperCase() + newWord.slice(1);
   }
 
   componentDidMount() {
@@ -35,14 +49,29 @@ class App extends Component {
   }
 
   render() {
-    console.log('state', this.state)
+    console.log('state', this.state.pokemon)
     return (
-      <StackGrid
-        columnWidth={150}
-        >
-        {this.renderPokemonCards()}
+      <div>
+        <Navbar />
+        <Switch>
+          <Route path="/pokemon/:id" render={(routerProps) => {
+            const foundPokemon = this.state.pokemon.find(pokemon => pokemon.id === parseInt(routerProps.match.params.id))
+            if (foundPokemon){
+              return <PokemonDeet capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} pokemon={foundPokemon} {...routerProps} />
+            } else {
+              return <div>Loading</div>
+            }
+          }} />
+          <Route path="/regions/kanto" render={(routerProps) => <PokemonCollection region={"Kanto"} pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/regions/johto" render={(routerProps) => <PokemonCollection region={"Johto"} pokemon={this.state.johto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/regions/hoenn" render={(routerProps) => <PokemonCollection region={"Hoenn"} pokemon={this.state.hoenn} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/regions/sinnoh" render={(routerProps) => <PokemonCollection region={"Sinnoh"} pokemon={this.state.sinnoh} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
-      </StackGrid>
+          <Route path="/home" render={(routerProps) => <PokemonCollection pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+
+
+        </Switch>
+      </div>
     );
   }
 }
