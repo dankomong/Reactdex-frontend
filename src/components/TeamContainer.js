@@ -39,7 +39,10 @@ export default class TeamContainer extends Component {
         teams: this.state.teams
       })
     }).then(res => res.json()).then(parsedRes => {
-      
+      console.log('PARSEDRES', parsedRes)
+      this.setState({
+        teams: [...this.state.teams, parsedRes]
+      })
     })
     // this.setState({
     //   teams
