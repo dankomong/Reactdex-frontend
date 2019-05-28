@@ -13,7 +13,8 @@ export default class LoginForm extends Component {
 		})
 	}
 
-  handleSubmit = () => {
+  handleSubmit = (event) => {
+		event.preventDefault()
 		fetch("http://localhost:3001/login", {
 			method: "POST",
 			headers: {
@@ -24,23 +25,28 @@ export default class LoginForm extends Component {
 		})
 		.then(res => res.json())
 		.then(data => {
-			if (data.errors){
-				alert(data.errors)
-			} else {
+			if (data.errors){alert(data.errors)}
+			else {
         // the data in this case may be different so might have to change the setState
         // in the setCurrentUser func
-				this.props.setCurrentUser(data)
+				this.props.setCurrentUser(data.user)
 				this.props.history.push(`/home`)
 
 			}
-
 		})
 	}
 
   render() {
     return (
-      <div>
-      LoginForm here!!
+      <div onChange={this.handleChange}>
+			<h1>Log in!</h1>
+    		<form>
+				<label name='username'>Username</label>
+				<input type='text' name='username'/>
+				<label name='password'>Password</label>
+				<input type='text' name='password'/>
+				<button onClick={this.handleSubmit}>log in</button>
+				</form>
       </div>
     )
   }
