@@ -24,6 +24,19 @@ code {
   margin-top: 60px;
 }
 
+.team-segment {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.teamcard-header {
+  margin-bottom: 30px;
+}
+
+.submitFormBtn {
+  float: right;
+}
+
 .region-header {
   text-align: center;
 }
@@ -33,5 +46,6 @@ code {
 }
 
 .card:hover {
+  transform: scale(1.08);
   cursor: pointer;
 }
