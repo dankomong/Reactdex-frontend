@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { Container, Button, Header, Icon, Segment, Form } from 'semantic-ui-react'
-import TeamCard from './TeamCard'
+import { Grid, Button, Header, Icon, Segment, Form } from 'semantic-ui-react'
+import TeamCollection from './TeamCollection'
 
 export default class TeamContainer extends Component {
 
   state = {
-    formClicked: false,
     teams: [],
     searchTerm: ""
   }
@@ -16,9 +15,16 @@ export default class TeamContainer extends Component {
     })
   }
 
-  addTeamForm = () => {
-    this.setState({
-      formClicked: true
+  deleteTeam = (id) => {
+    fetch('http://localhost:3001/delete_team', {
+      method: 'DELETE',
+      headers: {
+        "TeamID": id
+      }
+    }).then(res => res.json()).then(parsedRes => {
+      this.setState({
+        teams: parsedRes
+      })
     })
   }
 
@@ -52,11 +58,20 @@ export default class TeamContainer extends Component {
     })
   }
 
-  renderTeamCards = () => {
+  renderTeamCollections = () => {
     let newTeamsArr = [...this.state.teams];
     return newTeamsArr.map(team => {
-      return <TeamCard key={team.id} capitalizeFirstLetterOfName={this.props.capitalizeFirstLetterOfName} capitalizeFirstLetterOfType={this.props.capitalizeFirstLetterOfType} {...team} />
+      return <TeamCollection key={team.id} deleteTeam={this.deleteTeam} capitalizeFirstLetterOfName={this.props.capitalizeFirstLetterOfName} capitalizeFirstLetterOfType={this.props.capitalizeFirstLetterOfType} {...team} />
     })
+  }
+
+  renderForm = () => {
+    return  <Form success>
+      <Form.Input label='Team Name' value={this.state.searchTerm} onChange={this.updateSearchTerm} placeholder='Enter the name of the team' />
+      <div className="submitFormBtn">
+        <Button color='teal' onClick={this.postTeam}>Add Team</Button>
+      </div>
+    </Form>
   }
 
   // prob going to have to make a fetch here to get the user's current teams
@@ -73,27 +88,31 @@ export default class TeamContainer extends Component {
     console.log("team container", this.state.teams)
     return (
       /* if user has no teams we display this with ternary */
-      <Container>
-      {this.state.teams.length > 0 ? <div>
-          {this.renderTeamCards()}
-          <Button primary className="submitFormBtn" onClick={this.addTeamForm}>Add Team</Button>
-        </div> :
-        <Segment placeholder>
-          <Header icon>
-            <Icon name='search' />
-            You have no teams at the moment.
-            Want to create one?
-          </Header>
-          <Segment.Inline>
-            <Button primary className="submitFormBtn" onClick={this.addTeamForm}>Add Team</Button>
-          </Segment.Inline>
-        </Segment>}
-        {this.state.formClicked ? <Form success>
-          <Form.Input label='Name' value={this.state.searchTerm} onChange={this.updateSearchTerm} placeholder='Enter the name of the team' />
-          <Button onClick={this.postTeam}>Add Team</Button>
-        </Form> : null}
-
-      </Container>
+      <Grid celled="internally">
+        {this.state.teams.length > 0 ?
+           <Grid.Row>
+              <Grid.Column width={13}>
+                {this.renderTeamCollections()}
+              </Grid.Column>
+              <Grid.Column width={3}>
+                {this.renderForm()}
+              </Grid.Column>
+            </Grid.Row> :
+          <Grid.Row>
+            <Grid.Column width={13}>
+              <Segment placeholder>
+                <Header icon>
+                  <Icon name='search' />
+                  You have no teams at the moment.
+                  Want to create one?
+                </Header>
+              </Segment>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              {this.renderForm()}
+            </Grid.Column>
+          </Grid.Row>}
+      </Grid>
     )
   }
 }

@@ -3,7 +3,7 @@ import { Container, Button, Header, Icon, Segment } from 'semantic-ui-react'
 import PokemonCard from './PokemonCard'
 import StackGrid from 'react-stack-grid';
 
-export default class TeamCard extends Component {
+export default class TeamCollection extends Component {
 
 
   renderPokemonCards = () => {
@@ -15,8 +15,7 @@ export default class TeamCard extends Component {
   render() {
     console.log("pokemon teams", this.props)
     return (
-      <Container>
-        <div className="team-segment">
+      <div className="team-segment">
         <Segment placeholder>
             {this.props.pokemons.length === 0 ? <Header icon>
               <div className="teamcard-header">
@@ -33,10 +32,10 @@ export default class TeamCard extends Component {
             <StackGrid columnWidth={150}> {this.renderPokemonCards()} </StackGrid></div>}
            <Segment.Inline>
              <Button color='teal'>Add Pokemon</Button>
+             <Button color='red' onClick={() => this.props.deleteTeam(this.props.id)}>Delete Team</Button>
            </Segment.Inline>
          </Segment>
-         </div>
-      </Container>
+       </div>
     )
   }
 }
