@@ -23,7 +23,6 @@ export default class TeamContainer extends Component {
   }
 
   postTeam = () => {
-    let newArr = [...this.state.teams];
     // fetch request here to post user-teams
     // and then in the response of the fetch we'll use the response to
     // set the state
@@ -39,11 +38,18 @@ export default class TeamContainer extends Component {
         teams: this.state.teams
       })
     }).then(res => res.json()).then(parsedRes => {
-      
+      if(parsedRes.id === null){
+        alert("your capped out on teams!")
+      }else{
+        this.setState({
+          teams: [...this.state.teams, parsedRes]
+        })
+      }
+        // ('state teams', this.state.teams)
+        // this.setState({
+        //   teams: [...this.state.teams, parsedRes]
+        // })
     })
-    // this.setState({
-    //   teams
-    // })
   }
 
   renderTeamCards = () => {
