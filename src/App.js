@@ -128,10 +128,10 @@ class App extends Component {
     this.getTeams()
   }
 
-  render() {
-    console.log('state', this.state.pokemon)
-    return (
-      <div>
+  checkForUser=()=>{
+    if(this.state.currentUser){
+      return(
+        <div>
         <Navbar currentUser={this.state.currentUser} logOut={this.logOut}/>
         <Switch>
           <Route path="/pokemon/:id" render={(routerProps) => {
@@ -142,11 +142,6 @@ class App extends Component {
               return <div>Loading</div>
             }
           }} />
-          <Route
-            path="/login"
-            render={(routerProps) => {
-									return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
-								}} />
           <Route path="/regions/kanto" render={(routerProps) => <PokemonCollection region={"Kanto"} pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/johto" render={(routerProps) => <PokemonCollection region={"Johto"} pokemon={this.state.johto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/hoenn" render={(routerProps) => <PokemonCollection region={"Hoenn"} pokemon={this.state.hoenn} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
@@ -159,6 +154,28 @@ class App extends Component {
 
 
         </Switch>
+        </div>)
+    }else{
+      return(
+        <div>
+        <Navbar currentUser={this.state.currentUser} logOut={this.logOut}/>
+        <h1>change nav bar on condition, maybe add a splash</h1>
+        <Switch>
+        <Route
+          path="/login"
+          render={(routerProps) => {
+                return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
+              }} />
+              </Switch>
+        </div>
+      )
+    }
+  }
+
+  render() {
+    return (
+      <div>
+      {this.checkForUser()}
       </div>
     );
   }
