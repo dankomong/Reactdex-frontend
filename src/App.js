@@ -18,7 +18,9 @@ class App extends Component {
     johto: [],
     hoenn: [],
     sinnoh: [],
-    currentUser: null
+    currentUser: null,
+    teams: [],
+    searchTerm: ""
   }
 
   getPokemon = () => {
@@ -32,6 +34,58 @@ class App extends Component {
         sinnoh: parsedRes[3].pokemons
       })
       //console.log("kl;asdfj", parsedRes)
+    })
+  }
+
+  getTeams = () => {
+    fetch('http://localhost:3001/teams/index').then(res => res.json())
+      .then(parsedRes => {
+        this.setState({
+          teams: parsedRes
+        })
+      })
+  }
+
+  deleteTeam = (id) => {
+    console.log('ID', id)
+    fetch('http://localhost:3001/delete_team', {
+      method: 'DELETE',
+      headers: {
+        "TeamID": id
+      }
+    }).then(res => res.json()).then(parsedRes => {
+      this.setState({
+        teams: parsedRes
+      })
+    })
+  }
+
+  postTeam = () => {
+    // fetch request here to post user-teams
+    // and then in the response of the fetch we'll use the response to
+    // set the state
+    fetch('http://localhost:3001/create_team', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accepts': 'application/json'
+      },
+      body: JSON.stringify({
+        user: 1,
+        searchTerm: this.state.searchTerm,
+        teams: this.state.teams
+      })
+    }).then(res => res.json()).then(parsedRes => {
+      console.log('post team', parsedRes)
+      this.setState({
+        teams: [...this.state.teams, parsedRes]
+      })
+    })
+  }
+
+  updateSearchTerm = (e) => {
+    this.setState({
+      searchTerm: e.target.value
     })
   }
 
@@ -59,12 +113,13 @@ class App extends Component {
   setCurrentUser = (data) => {
 		localStorage.setItem("token", data.token)
 		this.setState({
-			currentUser: data.user
+			currentUser: data.token
 		})
 	}
 
   componentDidMount() {
     this.getPokemon()
+    this.getTeams()
   }
 
   render() {
@@ -91,7 +146,7 @@ class App extends Component {
           <Route path="/regions/hoenn" render={(routerProps) => <PokemonCollection region={"Hoenn"} pokemon={this.state.hoenn} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/sinnoh" render={(routerProps) => <PokemonCollection region={"Sinnoh"} pokemon={this.state.sinnoh} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
-          <Route path="/teams" render={(routerProps) => <TeamContainer currentUser={this.state.currentUser} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/teams" render={(routerProps) => <TeamContainer searchTerm={this.state.searchTerm} updateSearchTerm={this.updateSearchTerm} teams={this.state.teams} postTeam={this.postTeam} deleteTeam={this.deleteTeam} currentUser={this.state.currentUser} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
 
           <Route path="/home" render={(routerProps) => <PokemonCollection pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
