@@ -15,9 +15,19 @@ export default class Navbar extends Component {
      })
   }
 
+  renderSearchBar=()=>{
+    if(this.state.activeItem ==="home"||this.state.activeItem==="teams"){
+      return(null
+      )
+    }else{return(
+      <Menu.Item>
+        <Input icon='search' onChange={this.props.handleSearchTerm} placeholder='Search...' />
+      </Menu.Item>
+    )}
+  }
+
 
   render() {
-    console.log("IF")
     return (
       <Segment inverted>
         <Menu inverted pointing secondary>
@@ -42,7 +52,7 @@ export default class Navbar extends Component {
           active={this.state.activeItem === 'collection'}
           onClick={this.handleItemClick}
         />
-        <Dropdown item text='Regions' active={this.state.activeItem === 'collection'} onClick={this.handleItemClick}>
+        <Dropdown item text='Regions' onClick={this.handleItemClick}active={this.state.activeItem === 'collection'} onClick={this.handleItemClick}>
          <Dropdown.Menu>
            <Dropdown.Item as={ Link } name='kanto' to='/regions/kanto'>Kanto</Dropdown.Item>
            <Dropdown.Item as={ Link } name='johto' to='/regions/johto'>Johto</Dropdown.Item>
@@ -51,9 +61,7 @@ export default class Navbar extends Component {
          </Dropdown.Menu>
         </Dropdown>
         <Menu.Menu position='right'>
-          <Menu.Item>
-            <Input icon='search' onChange={this.props.handleSearchTerm} placeholder='Search...' />
-          </Menu.Item>
+        {this.renderSearchBar()}
           <Menu.Item
             name='logout'
             active={this.state.activeItem === 'logout'}

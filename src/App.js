@@ -22,6 +22,8 @@ class App extends Component {
     sinnoh: [],
     currentUser: null,
     teams: [],
+    teamName:"",
+    searchTerm:""
   }
 
   getPokemon = () => {
@@ -75,7 +77,7 @@ class App extends Component {
         'Accepts': 'application/json'
       },
       body: JSON.stringify({
-        searchTerm: this.state.searchTerm,
+        searchTerm: this.state.teamName,
         teams: this.state.teams
       })
     }).then(res => res.json())
@@ -137,21 +139,28 @@ class App extends Component {
     })
   }
 
-  updateSearchTerm = (e) => {
+  updateTeamName = (e) => {
 
-    let pokeArr = []
-    this.state.pokemon.forEach(pokemon=>{
-      if(pokemon.name.includes(e.target.value)){
-        pokeArr.push(pokemon)
-      }
-    })
+    // let pokeArr = []
+    // this.state.pokemon.forEach(pokemon=>{
+    //   if(pokemon.name.includes(e.target.value)){
+    //     pokeArr.push(pokemon)
+    //   }
+    // })
     // this.setState({
     //   searchTerm: e.target.value
     // },()=>{
+
       this.setState({
-        filteredPokemon:pokeArr
-      })
-    // })
+        // filteredPokemon:pokeArr,
+        teamName: e.target.value
+      },()=>{console.log(this.state.teamName)})
+  }
+
+  updateSearchTerm=(e)=>{
+    this.setState({
+      searchTerm:e.target.value
+    })
   }
 
   capitalizeFirstLetterOfName = (name) => {
@@ -232,26 +241,25 @@ class App extends Component {
               return <div>Loading</div>
             }
           }} />
-          <Route path="/collection" render={(routerProps)=> <PokemonCollection region="Your Collection" pokemon={this.state.teams} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>}/>
-          <Route path="/regions/kanto" render={(routerProps) => <PokemonCollection region={"Kanto"} pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-          <Route path="/regions/johto" render={(routerProps) => <PokemonCollection region={"Johto"} pokemon={this.state.johto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-          <Route path="/regions/hoenn" render={(routerProps) => <PokemonCollection region={"Hoenn"} pokemon={this.state.hoenn} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-          <Route path="/regions/sinnoh" render={(routerProps) => <PokemonCollection region={"Sinnoh"} pokemon={this.state.sinnoh} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/collection" render={(routerProps)=> <PokemonCollection region="Your Collection" searchTerm={this.state.searchTerm} pokemon={this.state.teams} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>}/>
+          <Route path="/regions/kanto" render={(routerProps) => <PokemonCollection region={"Kanto"} searchTerm={this.state.searchTerm} pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/regions/johto" render={(routerProps) => <PokemonCollection region={"Johto"} searchTerm={this.state.searchTerm} pokemon={this.state.johto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/regions/hoenn" render={(routerProps) => <PokemonCollection region={"Hoenn"} searchTerm={this.state.searchTerm} pokemon={this.state.hoenn} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/regions/sinnoh" render={(routerProps) => <PokemonCollection region={"Sinnoh"} searchTerm={this.state.searchTerm} pokemon={this.state.sinnoh} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
-          <Route path="/teams" render={(routerProps) => <TeamContainer deletePokemonFromTeam={this.deletePokemonFromTeam} searchTerm={this.state.searchTerm} updateSearchTerm={this.updateSearchTerm} teams={this.state.teams} postTeam={this.postTeam} deleteTeam={this.deleteTeam} currentUser={this.state.currentUser} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/teams" render={(routerProps) => <TeamContainer deletePokemonFromTeam={this.deletePokemonFromTeam} teamName={this.state.teamName} updateTeamName={this.updateTeamName} teams={this.state.teams} postTeam={this.postTeam} deleteTeam={this.deleteTeam} currentUser={this.state.currentUser} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
 
-          <Route path="/home" render={(routerProps) =>{return<h1>home</h1>}}/>
+          <Route path="/home" render={(routerProps) =>{return<img src="http://pngimg.com/uploads/pokemon/pokemon_PNG107.png"/>}}/>
 
 
         </Switch>
         </div>)
     }
     else {
-      console.log("ELSE")
       return(
         <div>
-        <Navbar currentUser={this.state.currentUser} register={this.register}login={this.login}/>
+        <Navbar currentUser={this.state.currentUser} updateSearchTerm={this.updateSearchTerm} register={this.register}login={this.login}/>
         <Switch>
         <Route
         exact path="/register"
@@ -269,7 +277,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('TEAMS', this.state.teams)
     return (
       <div>
       {this.checkForUser()}

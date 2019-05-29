@@ -13,7 +13,7 @@ setPokemonArr=()=>{
   }else{
     pokemonArr = [...this.props.pokemon]
   }
-    return pokemonArr
+    return pokemonArr.filter(pokemon=>pokemon.name.includes(this.props.searchTerm))
 }
 
 
@@ -25,7 +25,6 @@ setPokemonArr=()=>{
   }
 
   render() {
-    console.log(this.props.pokemon)
     return (
       <div>
         <div className="region-header">

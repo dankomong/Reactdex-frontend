@@ -4,9 +4,7 @@ import TeamCollection from './TeamCollection'
 
 export default class TeamContainer extends Component {
 
-  state = {
-    searchTerm: ""
-  }
+
 
   renderTeamCollections = () => {
     let newTeamsArr = [...this.props.teams];
@@ -17,7 +15,7 @@ export default class TeamContainer extends Component {
 
   renderForm = () => {
     return  <Form success>
-      <Form.Input label='Team Name' value={this.props.searchTerm} onChange={this.props.updateSearchTerm} placeholder='Enter the name of the team' />
+      <Form.Input label='Team Name' value={this.props.teamName} onChange={this.props.updateTeamName} placeholder='Enter the name of the team' />
       <div className="submitFormBtn">
         <Button color='teal' onClick={this.props.postTeam}>Add Team</Button>
       </div>

@@ -38,7 +38,6 @@ export default class TeamCollection extends Component {
               <StackGrid className="stack-grid" columnWidth={150}>
                {this.renderPokemonCards()} </StackGrid>
                <div className="add-deleteBtns">
-                 <Button color='teal'>Add Pokemon</Button>
                  <Button color='red' onClick={() => this.props.deleteTeam(this.props.id)}>Delete Team</Button>
               </div>
             </div>
