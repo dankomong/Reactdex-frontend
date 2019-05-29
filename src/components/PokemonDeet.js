@@ -1,8 +1,22 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 
+
 export default class PokemonDeet extends Component {
 
+  state = {
+    addClicked: false
+  }
+
+  handleAddPokemon = () => {
+    this.setState({
+      addClicked: true
+    })
+  }
+
+  renderTeamButtons = () => {
+
+  }
 
   render() {
     return (
@@ -24,9 +38,10 @@ export default class PokemonDeet extends Component {
             <Icon name='arrow left' />
           </Button.Content>
         </Button>
-        <Button color='teal'>
+        <Button color='teal' onClick={this.handleAddPokemon}>
           Add Pokemon to Team
         </Button>
+        
       </div>
     )
   }
