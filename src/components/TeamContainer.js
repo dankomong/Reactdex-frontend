@@ -32,6 +32,7 @@ export default class TeamContainer extends Component {
     // fetch request here to post user-teams
     // and then in the response of the fetch we'll use the response to
     // set the state
+    let token = localStorage.getItem('token');
     fetch('http://localhost:3001/create_team', {
       method: 'POST',
       headers: {
@@ -39,7 +40,7 @@ export default class TeamContainer extends Component {
         'Accepts': 'application/json'
       },
       body: JSON.stringify({
-        user: 1,
+        user: token,
         searchTerm: this.state.searchTerm,
         teams: this.state.teams
       })
