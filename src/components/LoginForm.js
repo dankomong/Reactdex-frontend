@@ -29,7 +29,6 @@ export default class LoginForm extends Component {
 			else {
         // the data in this case may be different so might have to change the setState
         // in the setCurrentUser func
-				debugger
 				this.props.setCurrentUser(data)
 				this.props.history.push(`/home`)
 

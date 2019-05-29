@@ -119,16 +119,38 @@ class App extends Component {
   setCurrentUser = (data) => {
 		localStorage.setItem("token", data.token)
 		this.setState({
-			currentUser: data.token
+			currentUser: data.user
 		})
 	}
+
+  autoLogin=()=>{
+    let token = localStorage.getItem("token")
+    fetch('http://localhost:3001/auto_login', {
+      method: 'POST',
+      headers: {
+      'Authorization':token,
+        'Content-Type': 'application/json',
+        'Accepts': 'application/json'
+      }}).then(res=>res.json())
+    .then(parsedRes=>{
+      if(parsedRes.erorrs){
+        alert(parsedRes.errors)
+      }else{
+        this.setState({
+          currentUser:parsedRes
+        })
+      }
+    })
+  }
 
   componentDidMount() {
     this.getPokemon()
     this.getTeams()
+    this.autoLogin()
   }
 
   checkForUser=()=>{
+    console.log(this.state.currentUser)
     if(this.state.currentUser){
       return(
         <div>
