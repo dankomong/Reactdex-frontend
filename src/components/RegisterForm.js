@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component,Fragment } from 'react'
 import { Button, Form } from 'semantic-ui-react'
 
-export default class LoginForm extends Component {
+export default class RegisterForm extends Component {
 
 	state = {
 		username: "",
@@ -16,7 +16,7 @@ export default class LoginForm extends Component {
 
   handleSubmit = (event) => {
 		event.preventDefault()
-		fetch("http://localhost:3001/login", {
+		fetch("http://localhost:3001/create_user", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -39,8 +39,8 @@ export default class LoginForm extends Component {
 
   render() {
     return (
-			<Fragment>
-			<h1>Log in!</h1>
+      <Fragment>
+      <h1>Register</h1>
 			<Form onChange={this.handleChange}>
 		    <Form.Field>
 		      <label>Username</label>
@@ -52,7 +52,7 @@ export default class LoginForm extends Component {
 		    </Form.Field>
 		    <Button onClick={this.handleSubmit}>Submit</Button>
 		  </Form>
-			</Fragment>
+      </Fragment>
     )
   }
 }

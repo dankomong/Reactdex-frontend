@@ -4,6 +4,7 @@ import './App.css';
 import PokemonCollection from './components/PokemonCollection'
 import PokemonDeet from './components/PokemonDeet'
 import Navbar from './components/Navbar'
+import RegisterForm from './components/RegisterForm'
 import LoginForm from './components/LoginForm'
 import TeamContainer from './components/TeamContainer'
 import { Route, Switch, Redirect } from 'react-router-dom'
@@ -14,13 +15,13 @@ class App extends Component {
 
   state = {
     pokemon: [],
+    filteredPokemon:[],
     kanto: [],
     johto: [],
     hoenn: [],
     sinnoh: [],
     currentUser: null,
     teams: [],
-    searchTerm: ""
   }
 
   getPokemon = () => {
@@ -28,6 +29,7 @@ class App extends Component {
     fetch(API).then(res => res.json()).then(parsedRes => {
       this.setState({
         pokemon: [...parsedRes[0].pokemons, ...parsedRes[1].pokemons, ...parsedRes[2].pokemons, ...parsedRes[3].pokemons],
+        filteredPokemon:[...parsedRes[0].pokemons, ...parsedRes[1].pokemons, ...parsedRes[2].pokemons, ...parsedRes[3].pokemons],
         kanto: parsedRes[0].pokemons,
         johto: parsedRes[1].pokemons,
         hoenn: parsedRes[2].pokemons,
@@ -56,7 +58,7 @@ class App extends Component {
     }).then(res => res.json()).then(parsedRes => {
       this.setState({
         teams: parsedRes
-      })
+      },()=>{console.log(this.state.pokemon)})
     })
   }
 
@@ -90,9 +92,20 @@ class App extends Component {
 }
 
   updateSearchTerm = (e) => {
-    this.setState({
-      searchTerm: e.target.value
+
+    let pokeArr = []
+    this.state.pokemon.forEach(pokemon=>{
+      if(pokemon.name.includes(e.target.value)){
+        pokeArr.push(pokemon)
+      }
     })
+    // this.setState({
+    //   searchTerm: e.target.value
+    // },()=>{
+      this.setState({
+        filteredPokemon:pokeArr
+      })
+    // })
   }
 
   capitalizeFirstLetterOfName = (name) => {
@@ -112,19 +125,22 @@ class App extends Component {
 		this.setState({
 			currentUser: null
 		}, () => {
-			this.props.history.push("/login")
+      debugger
+			this.props.history.push("/home")
 		})
 	}
 
   setCurrentUser = (data) => {
 		localStorage.setItem("token", data.token)
 		this.setState({
-			currentUser: data.user
+			currentUser: data.user,
+      teams:data.user.teams
 		})
 	}
 
   autoLogin=()=>{
     let token = localStorage.getItem("token")
+    if(token){
     fetch('http://localhost:3001/auto_login', {
       method: 'POST',
       headers: {
@@ -133,14 +149,21 @@ class App extends Component {
         'Accepts': 'application/json'
       }}).then(res=>res.json())
     .then(parsedRes=>{
-      if(parsedRes.erorrs){
+      if(parsedRes.errors){
         alert(parsedRes.errors)
       }else{
         this.setState({
           currentUser:parsedRes
-        })
+        },()=>this.props.history.push("/home"))
       }
-    })
+    })}
+  }
+
+  login=()=>{
+    this.props.history.push("/login")
+  }
+  register=()=>{
+    this.props.history.push("/register")
   }
 
   componentDidMount() {
@@ -150,11 +173,10 @@ class App extends Component {
   }
 
   checkForUser=()=>{
-    console.log(this.state.currentUser)
     if(this.state.currentUser){
       return(
         <div>
-        <Navbar currentUser={this.state.currentUser} logOut={this.logOut}/>
+        <Navbar currentUser={this.state.currentUser} handleSearchTerm={this.updateSearchTerm}logOut={this.logOut}/>
         <Switch>
           <Route path="/pokemon/:id" render={(routerProps) => {
             const foundPokemon = this.state.pokemon.find(pokemon => pokemon.id === parseInt(routerProps.match.params.id))
@@ -172,7 +194,7 @@ class App extends Component {
           <Route path="/teams" render={(routerProps) => <TeamContainer searchTerm={this.state.searchTerm} updateSearchTerm={this.updateSearchTerm} teams={this.state.teams} postTeam={this.postTeam} deleteTeam={this.deleteTeam} currentUser={this.state.currentUser} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
 
-          <Route path="/home" render={(routerProps) => <PokemonCollection pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/home" render={(routerProps) => <PokemonCollection pokemon={this.state.filteredPokemon} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
 
         </Switch>
@@ -180,18 +202,21 @@ class App extends Component {
     }else{
       return(
         <div>
-        <Navbar currentUser={this.state.currentUser} logOut={this.logOut}/>
-        <h1>change nav bar on condition, maybe add a splash</h1>
+        <Navbar currentUser={this.state.currentUser} register={this.register}login={this.login}/>
         <Switch>
         <Route
-          path="/login"
-          render={(routerProps) => {
-                return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
-              }} />
+        exact path="/register"
+        render={(routerProps) =>{
+           return<RegisterForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
+         }} />
+        <Route
+         exact path="/login"
+         render={(routerProps) => {
+               return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
+             }} />
               </Switch>
-        </div>
-      )
-    }
+        </div>)
+      }
   }
 
   render() {
