@@ -58,7 +58,7 @@ class App extends Component {
     }).then(res => res.json()).then(parsedRes => {
       this.setState({
         teams: parsedRes
-      },()=>{console.log(this.state.pokemon)})
+      })
     })
   }
 
@@ -110,13 +110,11 @@ class App extends Component {
 
   capitalizeFirstLetterOfName = (name) => {
     let newWord = name
-
     return newWord.charAt(0).toUpperCase() + newWord.slice(1);
   }
 
   capitalizeFirstLetterOfType = (type) => {
     let newWord = type
-
     return newWord.charAt(0).toUpperCase() + newWord.slice(1);
   }
 
@@ -186,6 +184,7 @@ class App extends Component {
               return <div>Loading</div>
             }
           }} />
+          <Route path="/collection" render={(routerProps)=> <PokemonCollection region="Your Collection" pokemon={this.state.teams} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>}/>
           <Route path="/regions/kanto" render={(routerProps) => <PokemonCollection region={"Kanto"} pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/johto" render={(routerProps) => <PokemonCollection region={"Johto"} pokemon={this.state.johto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/hoenn" render={(routerProps) => <PokemonCollection region={"Hoenn"} pokemon={this.state.hoenn} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
@@ -194,7 +193,7 @@ class App extends Component {
           <Route path="/teams" render={(routerProps) => <TeamContainer searchTerm={this.state.searchTerm} updateSearchTerm={this.updateSearchTerm} teams={this.state.teams} postTeam={this.postTeam} deleteTeam={this.deleteTeam} currentUser={this.state.currentUser} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
 
-          <Route path="/home" render={(routerProps) => <PokemonCollection pokemon={this.state.filteredPokemon} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/home" render={(routerProps) =>{return<h1>home</h1>}}/>
 
 
         </Switch>

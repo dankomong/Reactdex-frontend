@@ -19,7 +19,6 @@ export default class PokemonCard extends Component {
 
 
   render() {
-    //console.log(this.props.pokemon)
     //console.log('PROP', this.props)
     return (
       <div key={this.props.i} onClick={this.handleClick}>
