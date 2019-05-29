@@ -18,15 +18,15 @@ export default class PokemonDeet extends Component {
 
   renderTeamButtons = () => {
     let length = this.props.teams.length
-    const colorsArr = ["blue", "pink", "yellow", "teal"]
+    const colorsArr = ["blue", "pink", "yellow", "green"]
     return (
       <Button.Group>
         {this.props.teams.map((team, index) => {
           if (length - 1 === index) {
-            return <Button color={colorsArr[index]}>{team.name}</Button>
+            return <Button key={index} color={colorsArr[index]} onClick={() => this.props.updatePokemonTeam(team.id, this.props.pokemon.id)}>{team.name}</Button>
           }
           else {
-            return <Fragment><Button color={colorsArr[index]}>{team.name}</Button><Button.Or /></Fragment>
+            return <Fragment key={index}><Button key={index} color={colorsArr[index]} onClick={() => this.props.updatePokemonTeam(team.id, this.props.pokemon.id)}>{team.name}</Button><Button.Or /></Fragment>
           }
         })}
       </Button.Group>

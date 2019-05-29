@@ -64,21 +64,73 @@ class App extends Component {
     // fetch request here to post user-teams
     // and then in the response of the fetch we'll use the response to
     // set the state
+    let token = localStorage.getItem("token")
     fetch('http://localhost:3001/create_team', {
       method: 'POST',
       headers: {
+      'Authorization':token,
         'Content-Type': 'application/json',
         'Accepts': 'application/json'
       },
       body: JSON.stringify({
-        user: 1,
         searchTerm: this.state.searchTerm,
         teams: this.state.teams
       })
+    }).then(res => res.json())
+      .then(parsedRes => {
+        if(parsedRes.errors){
+          alert(parsedRes.errors)
+        }
+        else {
+        this.setState({
+          teams: [...this.state.teams, parsedRes]}
+        )
+      }
+    })
+  }
+
+  updatePokemonTeam = (teamId, pokemonId) => {
+    let token = localStorage.getItem('token')
+    return fetch('http://localhost:3001/add_pokemon_to_team', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accepts': 'application/json',
+        'Authorization': token
+      },
+      body: JSON.stringify({
+        id: teamId,
+        pokemon: pokemonId
+      })
     }).then(res => res.json()).then(parsedRes => {
-      console.log('post team', parsedRes)
+      if (parsedRes.errors) {
+        return <div>You got errors boy </div>
+      }
+      else {
+        let newArr = [...this.state.teams]
+        let newObj = newArr.find(team => {
+          return team.id === parsedRes.team.id
+        })
+        let index = newArr.indexOf(newObj)
+        newArr.splice(index, 1, parsedRes.team)
+        this.setState({
+          teams: newArr
+        })
+        this.props.history.push('/teams')
+      }
+    })
+  }
+
+  deletePokemonFromTeam = (teamId, pokemonId) => {
+    fetch('http://localhost:3001/delete_pokemon_from_team', {
+      method: 'DELETE',
+      headers: {
+        'Team-ID': teamId,
+        'Pokemon-ID': pokemonId
+      }
+    }).then(res => res.json()).then(parsedRes => {
       this.setState({
-        teams: [...this.state.teams, parsedRes]
+        teams: parsedRes
       })
     })
   }
@@ -101,19 +153,11 @@ class App extends Component {
     return newWord.charAt(0).toUpperCase() + newWord.slice(1);
   }
 
-  logOut = () => {
-		localStorage.removeItem('token')
-		this.setState({
-			currentUser: null
-		}, () => {
-			this.props.history.push("/login")
-		})
-	}
 
   setCurrentUser = (data) => {
 		localStorage.setItem("token", data.token)
 		this.setState({
-			currentUser: data.token
+			currentUser: data
 		})
 	}
 
@@ -122,37 +166,56 @@ class App extends Component {
     this.getTeams()
   }
 
-  render() {
-    console.log('state', this.state.pokemon)
-    return (
-      <div>
+  checkForUser=()=>{
+    if (true){
+      return(
+        <div>
         <Navbar currentUser={this.state.currentUser} logOut={this.logOut}/>
         <Switch>
           <Route path="/pokemon/:id" render={(routerProps) => {
             const foundPokemon = this.state.pokemon.find(pokemon => pokemon.id === parseInt(routerProps.match.params.id))
             if (foundPokemon){
-              return <PokemonDeet teams={this.state.teams} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} pokemon={foundPokemon} {...routerProps} />
+              return <PokemonDeet teams={this.state.teams} updatePokemonTeam={this.updatePokemonTeam} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} pokemon={foundPokemon} {...routerProps} />
             } else {
               return <div>Loading</div>
             }
           }} />
-          <Route
-            path="/login"
-            render={(routerProps) => {
-									return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
-								}} />
           <Route path="/regions/kanto" render={(routerProps) => <PokemonCollection region={"Kanto"} pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/johto" render={(routerProps) => <PokemonCollection region={"Johto"} pokemon={this.state.johto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/hoenn" render={(routerProps) => <PokemonCollection region={"Hoenn"} pokemon={this.state.hoenn} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/sinnoh" render={(routerProps) => <PokemonCollection region={"Sinnoh"} pokemon={this.state.sinnoh} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
-          <Route path="/teams" render={(routerProps) => <TeamContainer searchTerm={this.state.searchTerm} updateSearchTerm={this.updateSearchTerm} teams={this.state.teams} postTeam={this.postTeam} deleteTeam={this.deleteTeam} currentUser={this.state.currentUser} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/teams" render={(routerProps) => <TeamContainer deletePokemonFromTeam={this.deletePokemonFromTeam} searchTerm={this.state.searchTerm} updateSearchTerm={this.updateSearchTerm} teams={this.state.teams} postTeam={this.postTeam} deleteTeam={this.deleteTeam} currentUser={this.state.currentUser} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
 
           <Route path="/home" render={(routerProps) => <PokemonCollection pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
 
         </Switch>
+        </div>)
+    }
+    else {
+      return(
+        <div>
+        <Navbar currentUser={this.state.currentUser} logOut={this.logOut}/>
+        <h1>change nav bar on condition, maybe add a splash</h1>
+        <Switch>
+        <Route
+          path="/login"
+          render={(routerProps) => {
+                return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
+              }} />
+              </Switch>
+        </div>
+      )
+    }
+  }
+
+  render() {
+    console.log('TEAMS', this.state.teams)
+    return (
+      <div>
+      {this.checkForUser()}
       </div>
     );
   }
