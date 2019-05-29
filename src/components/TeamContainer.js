@@ -11,7 +11,7 @@ export default class TeamContainer extends Component {
   renderTeamCollections = () => {
     let newTeamsArr = [...this.props.teams];
     return newTeamsArr.map(team => {
-      return <TeamCollection key={team.id} deleteTeam={this.props.deleteTeam} capitalizeFirstLetterOfName={this.props.capitalizeFirstLetterOfName} capitalizeFirstLetterOfType={this.props.capitalizeFirstLetterOfType} {...team} />
+      return <TeamCollection key={team.id} deletePokemonFromTeam={this.props.deletePokemonFromTeam} deleteTeam={this.props.deleteTeam} capitalizeFirstLetterOfName={this.props.capitalizeFirstLetterOfName} capitalizeFirstLetterOfType={this.props.capitalizeFirstLetterOfType} {...team} />
     })
   }
 
@@ -22,11 +22,6 @@ export default class TeamContainer extends Component {
         <Button color='teal' onClick={this.props.postTeam}>Add Team</Button>
       </div>
     </Form>
-  }
-
-  // prob going to have to make a fetch here to get the user's current teams
-  componentDidMount() {
-
   }
 
   render() {
@@ -49,7 +44,7 @@ export default class TeamContainer extends Component {
                 <Header icon>
                   <Icon name='search' />
                   You have no teams at the moment.
-                  Want to create one?
+                  Create one with the form on the right ->
                 </Header>
               </Segment>
             </Grid.Column>

@@ -17,9 +17,32 @@ code {
   padding-top: 70px;
 }
 
+.cardBox {
+  width: 150px;
+  height: 198px;
+}
+
+.pokecard-div {
+  width: 60%;
+  height: 30%;
+}
+
 .deet-header {
   text-align: center;
   margin-top: 60px;
+}
+
+.stack-grid {
+  margin-bottom: 30px;
+}
+
+.add-deleteBtns {
+  margin-top: 15px;
+  float: right;
+}
+
+.showTeamButtons {
+  text-align: center;
 }
 
 .team-segment {
@@ -27,7 +50,19 @@ code {
   margin-bottom: 20px;
 }
 
+.remove-pokemonBtn {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.name-header {
+  margin-bottom: 50px;
+}
+
 .teamcard-header {
+  border-radius: 10px;
+  padding: 50px 50px 60px 50px;
+  background-color: #DEDDDE;
   margin-bottom: 30px;
 }
 
