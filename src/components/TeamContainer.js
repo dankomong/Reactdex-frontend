@@ -24,11 +24,6 @@ export default class TeamContainer extends Component {
     </Form>
   }
 
-  // prob going to have to make a fetch here to get the user's current teams
-  componentDidMount() {
-
-  }
-
   render() {
     console.log("team container", this.props.teams)
     return (

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 
 
@@ -9,16 +9,32 @@ export default class PokemonDeet extends Component {
   }
 
   handleAddPokemon = () => {
-    this.setState({
-      addClicked: true
+    this.setState(prevState => {
+      return {
+        addClicked: !prevState.addClicked
+      }
     })
   }
 
   renderTeamButtons = () => {
-
+    let length = this.props.teams.length
+    const colorsArr = ["blue", "pink", "yellow", "teal"]
+    return (
+      <Button.Group>
+        {this.props.teams.map((team, index) => {
+          if (length - 1 === index) {
+            return <Button color={colorsArr[index]}>{team.name}</Button>
+          }
+          else {
+            return <Fragment><Button color={colorsArr[index]}>{team.name}</Button><Button.Or /></Fragment>
+          }
+        })}
+      </Button.Group>
+    )
   }
 
   render() {
+    console.log('deet', this.props.teams)
     return (
       <div className="deet-header">
         <img src={this.props.pokemon.sprite} alt={this.props.pokemon.name} />
@@ -41,7 +57,10 @@ export default class PokemonDeet extends Component {
         <Button color='teal' onClick={this.handleAddPokemon}>
           Add Pokemon to Team
         </Button>
-        
+        {this.state.addClicked ? <div>
+          <h2>Select the team you want to add it to: </h2>
+          {this.renderTeamButtons()}
+      </div> : null}
       </div>
     )
   }
