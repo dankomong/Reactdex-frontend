@@ -67,38 +67,14 @@ class App extends Component {
     this.getPokemon()
   }
 
+  checkForUser=()=>{
+    this.state.currentUser
+  }
+
   render() {
     console.log('state', this.state.pokemon)
     return (
-      <div>
-        <Navbar currentUser={this.state.currentUser} logOut={this.logOut}/>
-        <Switch>
-          <Route path="/pokemon/:id" render={(routerProps) => {
-            const foundPokemon = this.state.pokemon.find(pokemon => pokemon.id === parseInt(routerProps.match.params.id))
-            if (foundPokemon){
-              return <PokemonDeet capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} pokemon={foundPokemon} {...routerProps} />
-            } else {
-              return <div>Loading</div>
-            }
-          }} />
-          <Route
-            path="/login"
-            render={(routerProps) => {
-									return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
-								}} />
-          <Route path="/regions/kanto" render={(routerProps) => <PokemonCollection region={"Kanto"} pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-          <Route path="/regions/johto" render={(routerProps) => <PokemonCollection region={"Johto"} pokemon={this.state.johto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-          <Route path="/regions/hoenn" render={(routerProps) => <PokemonCollection region={"Hoenn"} pokemon={this.state.hoenn} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-          <Route path="/regions/sinnoh" render={(routerProps) => <PokemonCollection region={"Sinnoh"} pokemon={this.state.sinnoh} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-
-          <Route path="/teams" render={(routerProps) => <TeamContainer currentUser={this.state.currentUser} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-
-
-          <Route path="/home" render={(routerProps) => <PokemonCollection pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-
-
-        </Switch>
-      </div>
+      {this.checkForUser()}
     );
   }
 }

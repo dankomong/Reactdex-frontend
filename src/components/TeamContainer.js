@@ -16,9 +16,11 @@ export default class TeamContainer extends Component {
   }
 
   deleteTeam = (id) => {
+      let token = localStorage.getItem('token');
     fetch('http://localhost:3001/delete_team', {
       method: 'DELETE',
       headers: {
+        "Authorization":token,
         "TeamID": id
       }
     }).then(res => res.json()).then(parsedRes => {
@@ -36,23 +38,23 @@ export default class TeamContainer extends Component {
     fetch('http://localhost:3001/create_team', {
       method: 'POST',
       headers: {
+        'Authorization':token,
         'Content-Type': 'application/json',
         'Accepts': 'application/json'
       },
       body: JSON.stringify({
-        user: token,
         searchTerm: this.state.searchTerm,
         teams: this.state.teams
       })
     }).then(res => res.json()).then(parsedRes => {
-      if(parsedRes.id === null){
-        alert("your capped out on teams!")
+      if(parsedRes.errors){
+        alert(parsedRes.errors)
       }else{
         this.setState({
           teams: [...this.state.teams, parsedRes]
         })
       }
-        // ('state teams', this.state.teams)
+      //   // ('state teams', this.state.teams)
         // this.setState({
         //   teams: [...this.state.teams, parsedRes]
         // })
