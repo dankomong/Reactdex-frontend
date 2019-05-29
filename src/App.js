@@ -204,6 +204,7 @@ class App extends Component {
   }
 
   login=()=>{
+    console.log("EET")
     this.props.history.push("/login")
   }
   register=()=>{
@@ -217,7 +218,8 @@ class App extends Component {
   }
 
   checkForUser=()=>{
-    if (true){
+    if (this.state.currentUser){
+
       return(
         <div>
         <Navbar currentUser={this.state.currentUser} handleSearchTerm={this.updateSearchTerm}logOut={this.logOut}/>
@@ -246,6 +248,7 @@ class App extends Component {
         </div>)
     }
     else {
+      console.log("ELSE")
       return(
         <div>
         <Navbar currentUser={this.state.currentUser} register={this.register}login={this.login}/>

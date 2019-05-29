@@ -1,5 +1,5 @@
 import React, { Component,Fragment } from 'react'
-import { Button, Form } from 'semantic-ui-react'
+import { Container, Button, Form } from 'semantic-ui-react'
 
 export default class RegisterForm extends Component {
 
@@ -39,7 +39,7 @@ export default class RegisterForm extends Component {
 
   render() {
     return (
-      <Fragment>
+      <Container>
       <h1>Register</h1>
 			<Form onChange={this.handleChange}>
 		    <Form.Field>
@@ -52,7 +52,7 @@ export default class RegisterForm extends Component {
 		    </Form.Field>
 		    <Button onClick={this.handleSubmit}>Submit</Button>
 		  </Form>
-      </Fragment>
+      </Container>
     )
   }
 }

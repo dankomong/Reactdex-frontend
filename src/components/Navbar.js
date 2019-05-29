@@ -17,6 +17,7 @@ export default class Navbar extends Component {
 
 
   render() {
+    console.log("IF")
     return (
       <Segment inverted>
         <Menu inverted pointing secondary>
