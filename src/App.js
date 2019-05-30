@@ -15,7 +15,7 @@ class App extends Component {
 
   state = {
     pokemon: [],
-    filteredPokemon:[],
+    // filteredPokemon:[],
     kanto: [],
     johto: [],
     hoenn: [],
@@ -30,9 +30,9 @@ class App extends Component {
     // testing for Kanto pokemon only
     fetch(API).then(res => res.json()).then(parsedRes => {
       this.setState({
-        pokemon: [...parsedRes[0].pokemons, ...parsedRes[1].pokemons, ...parsedRes[2].pokemons, ...parsedRes[3].pokemons],
-        filteredPokemon:[...parsedRes[0].pokemons, ...parsedRes[1].pokemons, ...parsedRes[2].pokemons, ...parsedRes[3].pokemons],
-        kanto: parsedRes[0].pokemons,
+        pokemon: [...parsedRes[0].pokemons, ...parsedRes[1].pokemons, ...parsedRes[2].pokemons, ...parsedRes[3].pokemons,...parsedRes[4].pokemons,...parsedRes[5].pokemons,...parsedRes[6].pokemons],
+        // filteredPokemon:[...parsedRes[0].pokemons,...parsedRes[1].pokemons, ...parsedRes[2].pokemons, ...parsedRes[3].pokemons,...parsedRes[4].pokemons,...parsedRes[5].pokemons,...parsedRes[6].pokemons],
+        // kanto: parsedRes[0].pokemons,
         johto: parsedRes[1].pokemons,
         hoenn: parsedRes[2].pokemons,
         sinnoh: parsedRes[3].pokemons,
@@ -239,6 +239,7 @@ class App extends Component {
         <Navbar currentUser={this.state.currentUser} handleSearchTerm={this.updateSearchTerm}logOut={this.logOut}/>
         <Switch>
           <Route path="/pokemon/:id" render={(routerProps) => {
+            debugger
             const foundPokemon = this.state.pokemon.find(pokemon => pokemon.id === parseInt(routerProps.match.params.id))
             if (foundPokemon){
               return <PokemonDeet teams={this.state.teams} updatePokemonTeam={this.updatePokemonTeam} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} pokemon={foundPokemon} {...routerProps} />
@@ -286,6 +287,7 @@ class App extends Component {
   }
 
   render() {
+    debugger
     return (
       <div>
       {this.checkForUser()}
