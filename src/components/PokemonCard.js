@@ -19,10 +19,17 @@ export default class PokemonCard extends Component {
 
 
   render() {
-    //console.log('PROP', this.props)
     return (
       <div key={this.props.i} className="cardBox" onClick={this.handleClick}>
-        {this.state.toggle ? <div className="card"><p><strong>Type: </strong>{this.props.capitalizeFirstLetterOfType(this.props.pokemon.type)}</p><Link to={`/pokemon/${this.props.pokemon.id}`}><p>More details</p></Link></div>
+        {this.state.toggle ?
+        <Card>
+        <Image src={this.props.pokemon.sprite} wrapped ui={false} />
+        <Card.Content>
+        <Card.Header>{this.props.capitalizeFirstLetterOfName(this.props.pokemon.name)}</Card.Header>
+        <Card.Description>Type:{this.props.capitalizeFirstLetterOfType(this.props.pokemon.type||this.props.pokemon.element)}</Card.Description>
+        <Card.Description><Link to={`/pokemon/${this.props.pokemon.id}`}><p>More details</p></Link></Card.Description>
+        </Card.Content>
+        </Card>
         :
         <Card>
           <Image src={this.props.pokemon.sprite} wrapped ui={false} />

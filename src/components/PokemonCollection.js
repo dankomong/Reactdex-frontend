@@ -24,7 +24,6 @@ setPokemonArr=()=>{
   if(this.props.region ==="Your Collection"){
     let newArr=[]
     let newObj ={}
-debugger
     this.props.pokemon.forEach(arr=>
       arr.pokemons.forEach(pokemon=>{
         if(newObj[pokemon.name]===undefined){
@@ -60,7 +59,6 @@ debugger
 
   renderPokemonCards = () => {
     const pokemonArr = this.setPokemonArr();
-
     return pokemonArr.map((poke, index) => {
       return <PokemonCard capitalizeFirstLetterOfName={this.props.capitalizeFirstLetterOfName} capitalizeFirstLetterOfType={this.props.capitalizeFirstLetterOfType} key={poke.id} i={index + 1} pokemon={poke} />
     })
