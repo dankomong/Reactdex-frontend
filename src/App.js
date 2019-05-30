@@ -239,7 +239,6 @@ class App extends Component {
         <Navbar currentUser={this.state.currentUser} handleSearchTerm={this.updateSearchTerm}logOut={this.logOut}/>
         <Switch>
           <Route path="/pokemon/:id" render={(routerProps) => {
-            debugger
             const foundPokemon = this.state.pokemon.find(pokemon => pokemon.id === parseInt(routerProps.match.params.id))
             if (foundPokemon){
               return <PokemonDeet teams={this.state.teams} updatePokemonTeam={this.updatePokemonTeam} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} pokemon={foundPokemon} {...routerProps} />
@@ -259,7 +258,7 @@ class App extends Component {
           <Route path="/teams" render={(routerProps) => <TeamContainer deletePokemonFromTeam={this.deletePokemonFromTeam} teamName={this.state.teamName} updateTeamName={this.updateTeamName} teams={this.state.teams} postTeam={this.postTeam} deleteTeam={this.deleteTeam} currentUser={this.state.currentUser} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
 
-          <Route path="/home" render={(routerProps) =>{return<img src="http://pngimg.com/uploads/pokemon/pokemon_PNG107.png"/>}}/>
+          <Route path="/home" render={(routerProps) =>{return <div className="homepage"><img src="https://i.ebayimg.com/images/g/qLMAAOSwWxNYpH6L/s-l300.jpg"/></div>}}/>
 
 
         </Switch>
@@ -287,7 +286,6 @@ class App extends Component {
   }
 
   render() {
-    debugger
     return (
       <div>
       {this.checkForUser()}
