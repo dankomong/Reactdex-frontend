@@ -26,7 +26,7 @@ export default class LoginForm extends Component {
 		})
 		.then(res => res.json())
 		.then(data => {
-			if (data.errors){alert(data.errors)}
+			if (data.errors || data.error){alert(data.errors||data.error)}
 			else {
         // the data in this case may be different so might have to change the setState
         // in the setCurrentUser func

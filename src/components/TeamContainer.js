@@ -23,7 +23,6 @@ export default class TeamContainer extends Component {
   }
 
   render() {
-    console.log("team container", this.props.teams)
     return (
       /* if user has no teams we display this with ternary */
       <Grid celled="internally">

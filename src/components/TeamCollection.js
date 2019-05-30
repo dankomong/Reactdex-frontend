@@ -18,7 +18,6 @@ export default class TeamCollection extends Component {
   }
 
   render() {
-    console.log("pokemon teams", this.props)
     return (
       <div>
           {this.props.pokemons.length === 0 ? <Segment placeholder>
@@ -30,7 +29,7 @@ export default class TeamCollection extends Component {
             Got no Pokemon yet, add one idiot
           </Header>
           <Segment.Inline>
-            <Button color='teal'>Add Pokemon</Button>
+            
             <Button color='red' onClick={() => this.props.deleteTeam(this.props.id)}>Delete Team</Button>
           </Segment.Inline> </Segment> : <Fragment>
             <div className="teamcard-header">

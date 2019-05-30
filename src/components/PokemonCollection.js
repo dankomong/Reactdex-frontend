@@ -50,12 +50,10 @@ setPokemonArr=()=>{
       // }
       pokemonArr=newArr
   }else{
-    console.log(this.props.pokemon)
     if(this.props.pokemon===undefined){pokemonArr=[]}
     else{pokemonArr = [...this.props.pokemon]}
   }
   console.log("Thank you brenden")
-  debugger
     return pokemonArr.filter(pokemon=>pokemon.name.includes(this.props.searchTerm))
 }
 

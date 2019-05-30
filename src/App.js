@@ -44,20 +44,21 @@ class App extends Component {
     })
   }
 
-  getTeams = () => {
-    fetch('http://localhost:3001/teams/index').then(res => res.json())
-      .then(parsedRes => {
-        this.setState({
-          teams: parsedRes
-        })
-      })
-  }
+  // getTeams = () => {
+  //   fetch('http://localhost:3001/teams/index').then(res => res.json())
+  //     .then(parsedRes => {
+  //       this.setState({
+  //         teams: parsedRes
+  //       })
+  //     })
+  // }
 
   deleteTeam = (id) => {
-    console.log('ID', id)
+    let token = localStorage.getItem('token')
     fetch('http://localhost:3001/delete_team', {
       method: 'DELETE',
       headers: {
+        "Authorization":token,
         "TeamID": id
       }
     }).then(res => res.json()).then(parsedRes => {
@@ -90,7 +91,9 @@ class App extends Component {
         }
         else {
         this.setState({
-          teams: [...this.state.teams, parsedRes]}
+          teams: [...this.state.teams, parsedRes],
+          teamName:""
+        }
         )
       }
     })
@@ -157,7 +160,7 @@ class App extends Component {
       this.setState({
         // filteredPokemon:pokeArr,
         teamName: e.target.value
-      },()=>{console.log(this.state.teamName)})
+      })
   }
 
   updateSearchTerm=(e)=>{
@@ -179,10 +182,8 @@ class App extends Component {
   logOut = () => {
 		localStorage.removeItem('token')
 		this.setState({
-			currentUser: null
-		}, () => {
-      debugger
-			this.props.history.push("/home")
+			currentUser: null,
+      teams:[]
 		})
 	}
 
@@ -209,7 +210,8 @@ class App extends Component {
         alert(parsedRes.errors)
       }else{
         this.setState({
-          currentUser:parsedRes
+          currentUser:parsedRes,
+          teams:parsedRes.teams
         },()=>this.props.history.push("/home"))
       }
     })}
@@ -225,7 +227,7 @@ class App extends Component {
 
   componentDidMount() {
     this.getPokemon()
-    this.getTeams()
+    // this.getTeams()
     this.autoLogin()
   }
 
@@ -278,6 +280,7 @@ class App extends Component {
                return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
              }} />
               </Switch>
+              <img src="http://pngimg.com/uploads/pokemon/pokemon_PNG107.png"/>
         </div>)
       }
   }
