@@ -24,7 +24,7 @@ setPokemonArr=()=>{
   if(this.props.region ==="Your Collection"){
     let newArr=[]
     let newObj ={}
-
+debugger
     this.props.pokemon.forEach(arr=>
       arr.pokemons.forEach(pokemon=>{
         if(newObj[pokemon.name]===undefined){

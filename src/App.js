@@ -32,7 +32,7 @@ class App extends Component {
       this.setState({
         pokemon: [...parsedRes[0].pokemons, ...parsedRes[1].pokemons, ...parsedRes[2].pokemons, ...parsedRes[3].pokemons,...parsedRes[4].pokemons,...parsedRes[5].pokemons,...parsedRes[6].pokemons],
         // filteredPokemon:[...parsedRes[0].pokemons,...parsedRes[1].pokemons, ...parsedRes[2].pokemons, ...parsedRes[3].pokemons,...parsedRes[4].pokemons,...parsedRes[5].pokemons,...parsedRes[6].pokemons],
-        // kanto: parsedRes[0].pokemons,
+        kanto: parsedRes[0].pokemons,
         johto: parsedRes[1].pokemons,
         hoenn: parsedRes[2].pokemons,
         sinnoh: parsedRes[3].pokemons,
