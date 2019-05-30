@@ -58,6 +58,9 @@ export default class Navbar extends Component {
            <Dropdown.Item as={ Link } name='johto' to='/regions/johto'>Johto</Dropdown.Item>
            <Dropdown.Item as={ Link } name='hoenn' to='/regions/hoenn'>Hoenn</Dropdown.Item>
            <Dropdown.Item as={ Link } name='sinnoh' to='/regions/sinnoh'>Sinnoh</Dropdown.Item>
+           <Dropdown.Item as={ Link } name='unova' to='/regions/unova'>Unova</Dropdown.Item>
+           <Dropdown.Item as={ Link } name='kalos' to='/regions/kalos'>Kalos</Dropdown.Item>
+           <Dropdown.Item as={ Link } name='special' to='/regions/special'>Special Forms</Dropdown.Item>
          </Dropdown.Menu>
         </Dropdown>
         <Menu.Menu position='right'>
