@@ -280,7 +280,7 @@ class App extends Component {
                return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
              }} />
               </Switch>
-              <img src="http://pngimg.com/uploads/pokemon/pokemon_PNG107.png"/>
+              <div className="homepage"><img src="https://i.ebayimg.com/images/g/qLMAAOSwWxNYpH6L/s-l300.jpg"/></div>
         </div>)
       }
   }
