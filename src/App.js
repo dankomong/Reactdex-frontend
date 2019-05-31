@@ -27,7 +27,6 @@ class App extends Component {
   }
 
   getPokemon = () => {
-    // testing for Kanto pokemon only
     fetch(API).then(res => res.json()).then(parsedRes => {
       this.setState({
         pokemon: [...parsedRes[0].pokemons, ...parsedRes[1].pokemons, ...parsedRes[2].pokemons, ...parsedRes[3].pokemons,...parsedRes[4].pokemons,...parsedRes[5].pokemons,...parsedRes[6].pokemons],
@@ -40,7 +39,6 @@ class App extends Component {
         kalos: parsedRes[5].pokemons,
         special: parsedRes[6].pokemons
       })
-      //console.log("kl;asdfj", parsedRes)
     })
   }
 
