@@ -65,7 +65,7 @@ setPokemonArr=()=>{
   }
 
   render() {
-
+    console.log(this.props.pokemon)
     return (
       <div>
         <div className="region-header">

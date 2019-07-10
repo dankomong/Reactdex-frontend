@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,Fragment } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import PokemonCollection from './components/PokemonCollection'
@@ -244,7 +244,7 @@ class App extends Component {
               return <div>Loading</div>
             }
           }} />
-          <Route path="/collection" render={(routerProps)=> <PokemonCollection region="Your Collection" searchTerm={this.state.searchTerm} pokemon={this.state.teams} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>}/>
+          <Route path="/collection" render={(routerProps)=> <PokemonCollection region={"Your Collection"} searchTerm={this.state.searchTerm} pokemon={this.state.teams} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>}/>
           <Route path="/regions/kanto" render={(routerProps) => <PokemonCollection region={"Kanto"} searchTerm={this.state.searchTerm} pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/johto" render={(routerProps) => <PokemonCollection region={"Johto"} searchTerm={this.state.searchTerm} pokemon={this.state.johto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/hoenn" render={(routerProps) => <PokemonCollection region={"Hoenn"} searchTerm={this.state.searchTerm} pokemon={this.state.hoenn} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
@@ -256,7 +256,7 @@ class App extends Component {
           <Route path="/teams" render={(routerProps) => <TeamContainer deletePokemonFromTeam={this.deletePokemonFromTeam} teamName={this.state.teamName} updateTeamName={this.updateTeamName} teams={this.state.teams} postTeam={this.postTeam} deleteTeam={this.deleteTeam} currentUser={this.state.currentUser} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
 
-          <Route path="/home" render={(routerProps) =>{return <div className="homepage"><img src="https://i.ebayimg.com/images/g/qLMAAOSwWxNYpH6L/s-l300.jpg"/></div>}}/>
+          <Route path="/home" render={(routerProps) =>{return <Fragment><h1 style={{textAlign:"center"}}>React-Dex</h1><div className="homepage"><img src="https://i.ebayimg.com/images/g/qLMAAOSwWxNYpH6L/s-l300.jpg"/></div></Fragment>}}/>
 
 
         </Switch>
@@ -277,8 +277,9 @@ class App extends Component {
          render={(routerProps) => {
                return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
              }} />
+        <Route path="/home" render={(routerProps) =>{return <div style={{textAlign:'center'}}><h1>React-Dex</h1></div>}}/>
               </Switch>
-              <img src="http://pngimg.com/uploads/pokemon/pokemon_PNG107.png"/>
+              // <img src="http://pngimg.com/uploads/pokemon/pokemon_PNG107.png"/>
         </div>)
       }
   }
@@ -293,3 +294,13 @@ class App extends Component {
 }
 
 export default App;
+
+
+
+
+
+// store.dispatch({type: “EDIT_CAT”, payload: {id: 5, name: “yeet”})
+// case "EDIT_CAT";
+// let newCats = state.cats.map(cat=>{cat.id === action.payload.id ? return{...cat,name:action.payload.name}})
+//  state.cats = newCats
+//  return state

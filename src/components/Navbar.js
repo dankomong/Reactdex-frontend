@@ -35,21 +35,21 @@ export default class Navbar extends Component {
           as={ Link }
           name='home'
           to='/home'
-          active={this.state.activeItem === 'home'}
+          // active={this.state.activeItem === 'home'}
           onClick={this.handleItemClick}
         />
         <Menu.Item
           as={ Link }
           name='teams'
           to='/teams'
-          active={this.state.activeItem === 'teams'}
+          // active={this.state.activeItem === 'teams'}
           onClick={this.handleItemClick}
         />
         <Menu.Item
           as={ Link }
           name='collection'
           to='/collection'
-          active={this.state.activeItem === 'collection'}
+          // active={this.state.activeItem === 'collection'}
           onClick={this.handleItemClick}
         />
         <Dropdown item text='Regions' onClick={this.handleItemClick}active={this.state.activeItem === 'collection'} onClick={this.handleItemClick}>
@@ -67,23 +67,33 @@ export default class Navbar extends Component {
         {this.renderSearchBar()}
           <Menu.Item
             name='logout'
-            active={this.state.activeItem === 'logout'}
+            // active={this.state.activeItem === 'logout'}
             onClick={this.props.logOut}
           />
         </Menu.Menu></Fragment>
                   :
+          <Fragment>
+          <Menu.Item
+            as={ Link }
+            name='home'
+            to='/home'
+            // active={this.state.activeItem === 'home'}
+            onClick={this.handleItemClick}
+          />
          <Menu.Menu position='right'>
           <Menu.Item
             name='login'
-            active={this.state.activeItem === 'login'}
+            // active={this.state.activeItem === 'login'}
             onClick={this.props.login}
           />
           <Menu.Item
               name='register'
-              active={this.state.activeItem === 'register'}
+              // active={this.state.activeItem === 'register'}
               onClick={this.props.register}
             />
-        </Menu.Menu>}
+        </Menu.Menu>
+        </Fragment>
+      }
 
         </Menu>
       </Segment>
