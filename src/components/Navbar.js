@@ -21,7 +21,7 @@ export default class Navbar extends Component {
       )
     }else{return(
       <Menu.Item>
-        <Input icon='search' onChange={this.props.handleSearchTerm} placeholder='Search...' />
+        <Input icon='search' value={this.props.searchTerm} onChange={this.props.handleSearchTerm} placeholder='Search...' />
       </Menu.Item>
     )}
   }

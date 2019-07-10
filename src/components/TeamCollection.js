@@ -26,10 +26,10 @@ export default class TeamCollection extends Component {
               <h1>{this.props.name}</h1>
             </div>
             <Icon name='search' />
-            Got no Pokemon yet, add one idiot
+            You have no Pokemon on this team!
           </Header>
           <Segment.Inline>
-            
+
             <Button color='red' onClick={() => this.props.deleteTeam(this.props.id)}>Delete Team</Button>
           </Segment.Inline> </Segment> : <Fragment>
             <div className="teamcard-header">

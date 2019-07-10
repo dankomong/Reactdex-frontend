@@ -229,12 +229,48 @@ class App extends Component {
     this.autoLogin()
   }
 
-  checkForUser=()=>{
-    if (this.state.currentUser){
+  allUsersPokemons = () => {
+    let pokemonArr = []
+     let newArr=[]
+     let newObj ={}
 
+     this.state.teams.forEach(arr=>
+       arr.pokemons.forEach(pokemon=>{
+         if(newObj[pokemon.name]===undefined){
+           newObj[pokemon.name]=true
+           newArr.push(pokemon)
+
+         }
+         else{}
+       }))
+
+       // console.log(newArr)
+
+       // newArr.forEach(pokemon=>{
+       //   if(pokemonArr.length===0){pokemonArr.push(pokemon)}
+       //   else{
+       //     pokemonArr.forEach(obj=>{
+       //       debugger
+       //       if(obj.id!==pokemon.id){
+       //         pokemonArr.push(pokemon)
+       //       }
+       //     })
+       //   }
+       // })
+       return newArr
+     }
+
+     resetSearchTerm = () => {
+       console.log("RESETING SEARCH")
+       this.setState({...this.state,searchTerm:""})
+     }
+
+  checkForUser=()=>{
+    // this.resetSearchTerm()
+    if (this.state.currentUser){
       return(
         <div>
-        <Navbar currentUser={this.state.currentUser} handleSearchTerm={this.updateSearchTerm}logOut={this.logOut}/>
+        <Navbar currentUser={this.state.currentUser} searchTerm={this.state.searchTerm} handleSearchTerm={this.updateSearchTerm}logOut={this.logOut}/>
         <Switch>
           <Route path="/pokemon/:id" render={(routerProps) => {
             const foundPokemon = this.state.pokemon.find(pokemon => pokemon.id === parseInt(routerProps.match.params.id))
@@ -244,13 +280,13 @@ class App extends Component {
               return <div>Loading</div>
             }
           }} />
-          <Route path="/collection" render={(routerProps)=> <PokemonCollection region={"Your Collection"} searchTerm={this.state.searchTerm} pokemon={this.state.teams} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>}/>
-          <Route path="/regions/kanto" render={(routerProps) => <PokemonCollection region={"Kanto"} searchTerm={this.state.searchTerm} pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-          <Route path="/regions/johto" render={(routerProps) => <PokemonCollection region={"Johto"} searchTerm={this.state.searchTerm} pokemon={this.state.johto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-          <Route path="/regions/hoenn" render={(routerProps) => <PokemonCollection region={"Hoenn"} searchTerm={this.state.searchTerm} pokemon={this.state.hoenn} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-          <Route path="/regions/sinnoh" render={(routerProps) => <PokemonCollection region={"Sinnoh"} searchTerm={this.state.searchTerm} pokemon={this.state.sinnoh} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-          <Route path="/regions/unova" render={(routerProps) => <PokemonCollection region={"Unova"} searchTerm={this.state.searchTerm} pokemon={this.state.unova} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
-          <Route path="/regions/kalos" render={(routerProps) => <PokemonCollection region={"Kalos"} searchTerm={this.state.searchTerm} pokemon={this.state.kalos} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/collection" render={(routerProps)=> <PokemonCollection resetSearchTerm={this.resetSearchTerm}region={"Your Collection"} searchTerm={this.state.searchTerm} pokemon={this.allUsersPokemons()} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>}/>
+          <Route path="/regions/kanto" render={(routerProps) => <PokemonCollection resetSearchTerm={this.resetSearchTerm}region={"Kanto"} searchTerm={this.state.searchTerm} pokemon={this.state.kanto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/regions/johto" render={(routerProps) => <PokemonCollection resetSearchTerm={this.resetSearchTerm}region={"Johto"} searchTerm={this.state.searchTerm} pokemon={this.state.johto} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/regions/hoenn" render={(routerProps) => <PokemonCollection resetSearchTerm={this.resetSearchTerm}region={"Hoenn"} searchTerm={this.state.searchTerm} pokemon={this.state.hoenn} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/regions/sinnoh" render={(routerProps) => <PokemonCollection resetSearchTerm={this.resetSearchTerm}region={"Sinnoh"} searchTerm={this.state.searchTerm} pokemon={this.state.sinnoh} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/regions/unova" render={(routerProps) => <PokemonCollection resetSearchTerm={this.resetSearchTerm}region={"Unova"} searchTerm={this.state.searchTerm} pokemon={this.state.unova} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
+          <Route path="/regions/kalos" render={(routerProps) => <PokemonCollection resetSearchTerm={this.resetSearchTerm}region={"Kalos"} searchTerm={this.state.searchTerm} pokemon={this.state.kalos} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
           <Route path="/regions/special" render={(routerProps) => <PokemonCollection region={"Special"} searchTerm={this.state.searchTerm} pokemon={this.state.special} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
 
           <Route path="/teams" render={(routerProps) => <TeamContainer deletePokemonFromTeam={this.deletePokemonFromTeam} teamName={this.state.teamName} updateTeamName={this.updateTeamName} teams={this.state.teams} postTeam={this.postTeam} deleteTeam={this.deleteTeam} currentUser={this.state.currentUser} capitalizeFirstLetterOfType={this.capitalizeFirstLetterOfType} capitalizeFirstLetterOfName={this.capitalizeFirstLetterOfName} {...routerProps}/>} />
@@ -265,7 +301,7 @@ class App extends Component {
     else {
       return(
         <div>
-        <Navbar currentUser={this.state.currentUser} updateSearchTerm={this.updateSearchTerm} register={this.register}login={this.login}/>
+        <Navbar currentUser={this.state.currentUser} register={this.register}login={this.login}/>
         <Switch>
         <Route
         exact path="/register"
@@ -277,7 +313,8 @@ class App extends Component {
          render={(routerProps) => {
                return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
              }} />
-        <Route path="/home" render={(routerProps) =>{return <div style={{textAlign:'center'}}><h1>React-Dex</h1></div>}}/>
+        <Route path="/home" render={(routerProps) =>{return <Fragment><h1 style={{textAlign:"center"}}>React-Dex</h1><div style={{textAlign:'center'}}></div></Fragment>}}/>
+          <Route path="/" render={(routerProps) =>{return <Fragment><h1 style={{textAlign:"center"}}>React-Dex</h1><div style={{textAlign:'center'}}></div></Fragment>}}/>
               </Switch>
               // <img src="http://pngimg.com/uploads/pokemon/pokemon_PNG107.png"/>
         </div>)
