@@ -270,10 +270,9 @@ class App extends Component {
          render={(routerProps) => {
                return <LoginForm setCurrentUser={this.setCurrentUser} {...routerProps}/>
              }} />
-        <Route path="/home" render={(routerProps) =>{return <Fragment><h1 style={{textAlign:"center"}}>React-Dex</h1><div style={{textAlign:'center'}}></div></Fragment>}}/>
-          <Route path="/" render={(routerProps) =>{return <Fragment><h1 style={{textAlign:"center"}}>React-Dex</h1><div style={{textAlign:'center'}}></div></Fragment>}}/>
+        <Route path="/home" render={(routerProps) =>{return <Fragment><h1 style={{textAlign:"center"}}>React-Dex</h1><div style={{textAlign:'center'}}><img src="http://pngimg.com/uploads/pokemon/pokemon_PNG107.png"/></div></Fragment>}}/>
+          <Route path="/" render={(routerProps) =>{return <Fragment><h1 style={{textAlign:"center"}}>React-Dex</h1><div style={{textAlign:'center'}}><img src="http://pngimg.com/uploads/pokemon/pokemon_PNG107.png"/></div></Fragment>}}/>
               </Switch>
-              // <img src="http://pngimg.com/uploads/pokemon/pokemon_PNG107.png"/>
         </div>)
       }
   }
