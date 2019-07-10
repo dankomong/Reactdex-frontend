@@ -64,7 +64,6 @@ export default class Navbar extends Component {
          </Dropdown.Menu>
         </Dropdown>
         <Menu.Menu position='right'>
-        {this.renderSearchBar()}
           <Menu.Item
             name='logout'
             // active={this.state.activeItem === 'logout'}

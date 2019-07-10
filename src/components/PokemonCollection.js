@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
 import StackGrid from 'react-stack-grid';
+import { Input,Divider } from 'semantic-ui-react'
 import PokemonCard from './PokemonCard'
 
 export default class PokemonCollection extends Component {
 
 
+
+  state = {
+    searchTerm:""
+  }
 //if this function turns back false dont push
 // checkArr=(arr,pokemon)=>{
 //   let newObj = pokemon
@@ -16,9 +21,13 @@ export default class PokemonCollection extends Component {
 // debugger
 // }
 
-// componentDidUpdate(){
-//   this.props.resetSearchTerm()
-// }
+
+resetSearchTerm = () => {
+  console.log("RESETING SEARCH")
+  this.setState({...this.state,searchTerm:""})
+}
+
+
 setPokemonArr=()=>{
 
 
@@ -55,7 +64,7 @@ setPokemonArr=()=>{
   //   else{pokemonArr = [...this.props.pokemon]}
   // }
   // console.log("Thank you brenden")
-    return this.props.pokemon.filter(pokemon=>pokemon.name.includes(this.props.searchTerm))
+    return this.props.pokemon.filter(pokemon=>pokemon.name.includes(this.state.searchTerm))
 }
 
 
@@ -70,12 +79,20 @@ setPokemonArr=()=>{
     }
   }
 
+  updateSearchTerm=(e)=>{
+    this.setState({
+      searchTerm:e.target.value
+    })
+  }
+
   render() {
     console.log(this.props.pokemon)
     return (
       <div>
         <div className="region-header">
           <p>{this.props.region}</p>
+          <Input icon='search' value={this.state.searchTerm} onChange={this.updateSearchTerm} placeholder='Search...' />
+          <Divider/>
         </div>
           {this.props.pokemon.length === 0 ? <h1 style={{textAlign:"center"}}>You have no Pokemon!</h1> :this.renderPokemonCards()}
       </div>
